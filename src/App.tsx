@@ -1,7 +1,7 @@
 import './App.css';
 import * as THREE from "three";
 import { useEffect } from 'react';
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { GLTFLoader, GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 
@@ -74,7 +74,7 @@ function App() {
     // gltf ３Dモデルインポート (ここを修正)
     const gltfLoader = new GLTFLoader();
     gltfLoader.setMeshoptDecoder(MeshoptDecoder);
-    gltfLoader.load(`${import.meta.env.BASE_URL}models/table20250815.glb`, (gltf: THREE.GLTF) => {
+    gltfLoader.load(`${import.meta.env.BASE_URL}models/table20250815.glb`, (gltf: GLTF) => {
       model = gltf.scene;
 
       // モデルを3倍に拡大
