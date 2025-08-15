@@ -1,0 +1,16 @@
+canvas {
+  width: 100%;
+  max-height: 50%;
+  background: #fcfcfc;
+  background: linear-gradient(0deg, rgba(252, 252, 252, 1) 0%, rgba(186, 241, 255, 1) 43%, rgba(87, 205, 255, 1) 100%);
+  position: relative;
+}
+
+.mainContent {
+  position: absolute;
+  top: 5%;
+  left: 10%;
+  color: #333;
+  font-weight: normal;
+  text-align: center;
+}
