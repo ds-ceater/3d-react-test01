@@ -92,8 +92,6 @@ function App() {
       });
     });
 
-    
-
     // アニメーション
     const tick = () => {
       renderer.render(scene, camera);
