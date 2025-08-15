@@ -28,7 +28,7 @@ function App() {
     // 影の品質を調整
     directionalLight.shadow.mapSize.width = 1024; // 影の解像度
     directionalLight.shadow.mapSize.height = 1024;
-    directionalLight.shadow.camera.far = 20; // 影を生成する範囲
+    directionalLight.shadow.camera.far = 100; // 影を生成する範囲
     scene.add(directionalLight);
 
     // camera
@@ -53,19 +53,35 @@ function App() {
     // OrbitControlsのインスタンスを作成
     const controls = new OrbitControls(camera, renderer.domElement);
 
+    const handleResize = () => {
+      // 画面の新しいサイズを取得
+      const newWidth = window.innerWidth;
+      const newHeight = window.innerHeight;
+
+      // レンダラーのサイズを更新
+      renderer.setSize(newWidth, newHeight);
+
+      // カメラのアスペクト比を更新
+      camera.aspect = newWidth / newHeight;
+      camera.updateProjectionMatrix(); // カメラの射影行列を更新
+    };
+
+    // resizeイベントリスナーを設定
+    window.addEventListener('resize', handleResize);
+
     
 
     // gltf ３Dモデルインポート (ここを修正)
     const gltfLoader = new GLTFLoader();
     gltfLoader.setMeshoptDecoder(MeshoptDecoder);
-    gltfLoader.load(`${import.meta.env.BASE_URL}models/table20250815.glb`, (gltf) => {
+    gltfLoader.load(`${import.meta.env.BASE_URL}models/table20250815.glb`, (gltf: THREE.GLTF) => {
       model = gltf.scene;
 
       // モデルを3倍に拡大
       model.scale.set(3, 3, 3);
 
       scene.add(model);
-      gltf.scene.traverse((child) => {
+      gltf.scene.traverse((child: THREE.Object3D) => {
         if ((child as THREE.Mesh).isMesh) {
           child.castShadow = true; // モデルが影を落とすように設定
           const mesh = child as THREE.Mesh;
@@ -74,11 +90,9 @@ function App() {
           }
         }
       });
-      
-      scene.add(gltf.scene);
     });
-    
 
+    
 
     // アニメーション
     const tick = () => {
@@ -87,6 +101,11 @@ function App() {
       requestAnimationFrame(tick);
     };
     tick();
+
+    // クリーンアップ関数を返す
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
 
   }, []);
 
